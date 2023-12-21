@@ -4,24 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="./css/style.css">
     <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Erica+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap" rel="stylesheet">
-    <title>Memory</title>
+    <title>Memory Game</title>
 </head>
 
 <body>
-    <a href="./index.html">
-        <h1>MEMORY</h1>
-    </a>
-    <p class="rules" id="rules"><strong>Game rules:</strong> Find pairs of 2 until all cards are
-        paired. <br> Successful
-        pairing grants a
-        "free" turn. <br> <strong>Good Luck!</strong></p>
+    <div class="game-headline">
+        <a href="./index.html">
+            <h1>MEMORY</h1>
+        </a>
+    </div>
+    <div class="game-paragraph">
+        <p class="rules" id="rules"><strong>Game rules:</strong> Find pairs of 2 until all cards are
+            paired. <br> Successful
+            pairing grants a
+            "free" turn. <br> <strong>Good Luck!</strong></p>
+    </div>
 
-    <button class="btn" id="startBtn">Start</button>
-    <div id="game-area"></div>
+    <div class="game-button">
+        <button class="btn" id="start-btn">Start</button>
+    </div>
+
+    <div class="game-area" id="game-area"></div>
 
     <script src="./js/script.js"></script>
 </body>
