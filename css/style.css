@@ -62,7 +62,7 @@ strong {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  color: rgb(195, 195, 195);
+  color: #ccc;
   background-color: rgb(30, 44, 199);
 }
 
@@ -70,16 +70,24 @@ strong {
   background-color: rgb(101, 114, 255);
 }
 
+#game-area {
+  display: grid;
+  gap: 10px;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(5, 1fr);
+}
+
 .card {
-  width: 100px;
-  height: 150px;
-  background-color: #f0f0f0;
+  width: 200px;
+  height: 250px;
+  background-color: rgb(30, 44, 199);
   border: 2px solid #ccc;
   border-radius: 5px;
   display: inline-block;
   margin: 5px;
   perspective: 1000px;
   position: relative;
+  cursor: pointer;
 }
 
 .card.back {
@@ -88,10 +96,4 @@ strong {
 
 .card.flip {
   transform: rotateY(180deg);
-}
-
-.game-area {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
 }
