@@ -1,3 +1,5 @@
+::before,
+::after,
 * {
   box-sizing: border-box;
   padding: 0;
@@ -66,4 +68,30 @@ strong {
 
 .btn:hover {
   background-color: rgb(101, 114, 255);
+}
+
+.card {
+  width: 100px;
+  height: 150px;
+  background-color: #f0f0f0;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  display: inline-block;
+  margin: 5px;
+  perspective: 1000px;
+  position: relative;
+}
+
+.card.back {
+  transform: rotateY(180deg);
+}
+
+.card.flip {
+  transform: rotateY(180deg);
+}
+
+.game-area {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
