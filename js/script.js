@@ -1,153 +1,154 @@
-const cardsData = [
-  { id: 1, image: "./images/absol.png" },
-  { id: 2, image: "./images/charizard.png" },
-  { id: 3, image: "./images/dragonite.png" },
-  { id: 4, image: "./images/lapras.png" },
-  { id: 5, image: "./images/moltres.png" },
-  { id: 6, image: "./images/mudkip.png" },
-  { id: 7, image: "./images/pikachu.png" },
-  { id: 8, image: "./images/piplup.png" },
-  { id: 9, image: "./images/shinx.png" },
-  { id: 10, image: "./images/zapdos.png" },
-];
+document.addEventListener("DOMContentLoaded", () => {
+  const images = [
+    "./images/absol.png",
+    "./images/charizard.png",
+    "./images/dragonite.png",
+    "./images/lapras.png",
+    "./images/moltres.png",
+    "./images/mudkip.png",
+    "./images/pikachu.png",
+    "./images/piplup.png",
+    "./images/shinx.png",
+    "./images/zapdos.png",
+  ];
 
-let turns = 0;
-let hasFlippedCard = false;
-let lockBoard = false;
-let firstCard, secondCard;
+  let turnCount = 0; // Initialize the turn counter
+  const turnCounterDisplay = document.getElementById("turn-counter");
 
-function startGame() {
-  turns = 0;
   const gameArea = document.getElementById("game-area");
-  gameArea.innerHTML = "";
+  const startBtn = document.getElementById("start-btn");
+  let cardsChosen = [];
+  let cardsChosenId = [];
+  let cardsWon = [];
 
-  const cardPairs = generateCardPairs(cardsData);
-  const shuffledCards = shuffle([...cardPairs, ...cardPairs]);
+  // Double the images array to create pairs
+  const doubledImages = images.concat(images);
 
-  shuffledCards.forEach((cardData) => {
-    const card = document.createElement("div");
-    card.classList.add("card");
-    card.dataset.id = cardData.id;
-
-    const cardFront = document.createElement("div");
-    cardFront.classList.add("card-front");
-    cardFront.innerHTML = `<img src="./images/back.png" alt="Back of Card">`; // Use a placeholder for the card back
-
-    const cardBack = document.createElement("div");
-    cardBack.classList.add("card-back");
-    cardBack.innerHTML = `<img src="${cardData.image}" alt="Card ${cardData.id}" style="visibility: hidden;">`;
-
-    card.appendChild(cardFront);
-    card.appendChild(cardBack);
-
-    card.addEventListener("click", flipCard);
-    gameArea.appendChild(card);
-  });
-
-  document.getElementById("start-btn").textContent = "Reset";
-  document.getElementById("start-btn").removeEventListener("click", startGame);
-  document.getElementById("start-btn").addEventListener("click", resetGame);
-}
-
-function flipCard() {
-  if (lockBoard) return;
-  if (this === firstCard) return;
-
-  this.classList.add("flip");
-
-  if (!hasFlippedCard) {
-    hasFlippedCard = true;
-    firstCard = this;
-    toggleVisibility(firstCard.querySelector(".card-back img"));
-    return;
+  // Shuffle images
+  function shuffle(array) {
+    let currentIndex = array.length,
+      temp,
+      randomIndex;
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      temp = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temp;
+    }
+    return array;
   }
 
-  secondCard = this;
-  toggleVisibility(secondCard.querySelector(".card-back img"));
-  checkForMatch();
-}
+  // Create the game board
+  function createBoard() {
+    const shuffledImages = shuffle(doubledImages);
+    for (let i = 0; i < shuffledImages.length; i++) {
+      const card = document.createElement("div");
+      card.classList.add("card");
+      card.setAttribute("data-id", i);
 
-function toggleVisibility(element) {
-  element.style.visibility =
-    element.style.visibility === "hidden" ? "visible" : "hidden";
-}
+      // Create back element for each card as an image
+      const back = document.createElement("img");
+      back.classList.add("back");
+      back.src = "./images/card.png"; // Set a blank image initially
+      back.setAttribute("data-image", shuffledImages[i]); // Store the actual image path as a data attribute
+      card.appendChild(back);
 
-function checkForMatch() {
-  turns++;
-  const cards = document.querySelectorAll(".card.flip");
-  const [card1, card2] = cards;
+      card.addEventListener("click", flipCard);
+      gameArea.appendChild(card);
+    }
 
-  if (card1.dataset.id === card2.dataset.id) {
-    disableCards(cards);
-  } else {
-    unflipCards(cards);
+    // Change the Start button to a Restart button after the board is loaded
+    startBtn.textContent = "Restart";
+    startBtn.removeEventListener("click", startGame);
+    startBtn.addEventListener("click", restartGame);
   }
-}
 
-function disableCards(cards) {
-  cards.forEach((card) => {
-    card.removeEventListener("click", flipCard);
-    card.style.visibility = "hidden";
-    const cardBackImg = card.querySelector(".card-back img");
-    cardBackImg.style.visibility = "hidden";
-    card.remove();
-  });
+  // Hide the paragraph text
+  function hideParagraphText() {
+    const paragraph = document.querySelector(".game-paragraph");
+    paragraph.style.display = "none";
+  }
 
-  resetBoard();
-}
+  // Check for matches
+  function checkForMatch() {
+    const allCards = document.querySelectorAll(".card");
+    const [optionOneId, optionTwoId] = cardsChosenId;
+    const [optionOne, optionTwo] = cardsChosen;
 
-function unflipCards(cards) {
-  lockBoard = true;
+    const cardOne = allCards[optionOneId];
+    const cardTwo = allCards[optionTwoId];
+    const backOne = cardOne.querySelector(".back");
+    const backTwo = cardTwo.querySelector(".back");
 
-  setTimeout(() => {
-    cards.forEach((card) => {
-      if (!card.classList.contains("matched")) {
-        card.classList.remove("flip");
-        toggleVisibility(card.querySelector(".card-back img"));
+    if (optionOne === optionTwo && optionOneId !== optionTwoId) {
+      cardsWon.push(optionOneId, optionTwoId);
+      cardsChosen = [];
+      cardsChosenId = [];
+
+      // Remove matched cards from the board
+      cardOne.style.visibility = "hidden";
+      cardTwo.style.visibility = "hidden";
+    } else {
+      turnCount++; // Increment the turn counter on mismatch
+      turnCounterDisplay.textContent = `Turns: ${turnCount}`;
+      setTimeout(() => {
+        cardOne.classList.remove("flip");
+        cardTwo.classList.remove("flip");
+        backOne.src = "./images/card.png";
+        backTwo.src = "./images/card.png";
+        cardsChosen = [];
+        cardsChosenId = [];
+      }, 1000);
+    }
+
+    if (cardsWon.length === doubledImages.length) {
+      setTimeout(() => {
+        alert("Congratulations! You found all the matches!");
+        gameArea.innerHTML = "";
+        createBoard();
+      }, 500); // Delay the alert by 500 milliseconds (adjust as needed)
+    }
+  }
+
+  // Flip the card
+  function flipCard() {
+    const cardId = this.getAttribute("data-id");
+    const back = this.querySelector(".back");
+
+    // Check if the card is already flipped or if two cards are already chosen
+    if (!this.classList.contains("flip") && cardsChosen.length < 2) {
+      this.classList.add("flip");
+      cardsChosen.push(doubledImages[cardId]);
+      cardsChosenId.push(cardId);
+
+      back.src = back.getAttribute("data-image"); // Set image source when flipped
+
+      if (cardsChosen.length === 2) {
+        setTimeout(checkForMatch, 500);
       }
-    });
-
-    resetBoard();
-  }, 1000);
-}
-
-function resetBoard() {
-  [hasFlippedCard, lockBoard] = [false, false];
-  [firstCard, secondCard] = [null, null];
-}
-
-function resetGame() {
-  const gameArea = document.getElementById("game-area");
-  gameArea.innerHTML = "";
-
-  document.getElementById("start-btn").textContent = "Start";
-  document.getElementById("start-btn").removeEventListener("click", resetGame);
-  document.getElementById("start-btn").addEventListener("click", startGame);
-}
-
-document.getElementById("start-btn").addEventListener("click", startGame);
-
-function generateCardPairs(cardsData) {
-  const cardPairs = [];
-  cardsData.forEach((cardData, index) => {
-    cardPairs.push({ id: index, image: cardData.image });
-  });
-  return cardPairs;
-}
-
-function shuffle(array) {
-  let currentIndex = array.length;
-  let randomIndex;
-
-  while (currentIndex !== 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
-    ];
+    }
   }
 
-  return array;
-}
+  // Function to start the game
+  function startGame() {
+    hideParagraphText();
+    gameArea.innerHTML = ""; // Clear existing game board
+    createBoard();
+  }
+
+  // Function to restart the game
+  function restartGame() {
+    turnCount = 0;
+    turnCounterDisplay.textContent = `Turns: ${turnCount}`;
+
+    cardsChosen = [];
+    cardsChosenId = [];
+    cardsWon = [];
+    gameArea.innerHTML = ""; // Clear existing game board
+    createBoard();
+  }
+
+  // Event listener for Start button
+  startBtn.addEventListener("click", startGame);
+});
