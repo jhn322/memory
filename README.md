@@ -24,8 +24,8 @@ Det finns två alternativ att generera spelytan:
 
 - Från en statisk html (lätta alternativet)
 
-- Generera dynamisk (lite svårare, men kan också genrera nya spelomgångar).
-  Du utgår från `<div id="game-area">` och lägger till antalet element dynamiskt med `document.createElement('div')`. Varje element i sig behöver representeras av ett värde, exempelvis av en array. För varje spelomgång behöver spelplanen "shufflas" (använd dig dig Math.random())
+- Generera dynamiskt
+  Utgå från `<div id="game-area">` och lägger till antalet element dynamiskt med `document.createElement('div')`. Varje element i sig behöver representeras av ett värde, exempelvis av en array. För varje spelomgång behöver spelplanen "shufflas" (använd dig Math.random())
 
 ## Annat
 
