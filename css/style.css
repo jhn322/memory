@@ -186,21 +186,57 @@ strong {
   }
 }
 
+/* Laptop */
+@media (min-width: 900px) and (max-width: 1900px) {
+  body {
+    height: 100vh;
+    border: 1px red solid;
+  }
+
+  h1 {
+    font-size: 5rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .btn,
+  #turn-counter {
+    width: 70px;
+    height: 30px;
+    font-size: 1rem;
+    margin-bottom: -2rem;
+  }
+
+  .card {
+    width: 120px;
+    height: 170px;
+    margin: 5px;
+  }
+
+  img {
+    width: 120px;
+    height: 170px;
+  }
+}
+
 /* Tablet */
-@media (min-width: 900px) and (max-width: 1399px) {
+@media (min-height: 1000px) and (max-height: 1400px) and (max-width: 1100px) {
+  body {
+    height: 100vh;
+  }
+
   h1 {
     font-size: 7rem;
     margin-bottom: 1rem;
   }
 
   .card {
-    width: 180px;
-    height: 230px;
+    width: 130px;
+    height: 180px;
     margin: 5px;
   }
 
   img {
-    width: 180px;
-    height: 230px;
+    width: 130px;
+    height: 180px;
   }
 }
