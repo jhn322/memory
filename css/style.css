@@ -160,9 +160,8 @@ strong {
 /* Mobile */
 @media (max-width: 899px) {
   h1 {
-    font-size: 4rem;
+    font-size: 4.5rem;
     margin-bottom: 2rem;
-    margin-top: -14rem;
   }
 
   .card {
@@ -173,12 +172,12 @@ strong {
 
   /* Start screen margin */
   #rules {
-    margin-bottom: 7rem;
+    margin-bottom: 4rem;
   }
 
   /* margins menu button */
   .game-button {
-    margin-top: -6rem;
+    margin-top: -1rem;
   }
 
   img {
