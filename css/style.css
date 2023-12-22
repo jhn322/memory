@@ -190,7 +190,6 @@ strong {
 @media (min-width: 900px) and (max-width: 1950px) {
   body {
     height: 100vh;
-    border: 1px red solid;
   }
 
   h1 {
