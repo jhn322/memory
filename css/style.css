@@ -165,16 +165,13 @@ strong {
   }
 
   .card {
-    width: 50px;
+    width: 67px;
     height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     margin: 0;
   }
 
   img {
-    width: 50px;
+    width: 67px;
     height: 100px;
   }
 }
@@ -187,20 +184,13 @@ strong {
   }
 
   .card {
-    width: 170px;
-    height: 220px;
-    background-color: #ffffff;
-    border: 2px solid rgb(30, 44, 199);
-    display: inline-block;
+    width: 180px;
+    height: 230px;
     margin: 5px;
-    perspective: 1000px;
-    position: relative;
-    cursor: pointer;
-    transition: all 0.7s ease;
   }
 
   img {
-    width: 170px;
-    height: 220px;
+    width: 180px;
+    height: 230px;
   }
 }
