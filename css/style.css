@@ -162,12 +162,17 @@ strong {
   h1 {
     font-size: 4rem;
     margin-bottom: 2rem;
+    margin-top: -14rem;
   }
 
   .card {
     width: 67px;
     height: 100px;
     margin: 0;
+  }
+
+  .game-button {
+    margin-top: -6rem;
   }
 
   img {
