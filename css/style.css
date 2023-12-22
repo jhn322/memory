@@ -171,6 +171,12 @@ strong {
     margin: 0;
   }
 
+  /* Start screen margin */
+  #rules {
+    margin-bottom: 7rem;
+  }
+
+  /* margins menu button */
   .game-button {
     margin-top: -6rem;
   }
