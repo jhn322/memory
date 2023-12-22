@@ -143,10 +143,12 @@ document.addEventListener("DOMContentLoaded", () => {
       endGame();
     }
 
+    // Checks if the number of cards won is equal to the total number of doubled images
     if (cardsWon.length === doubledImages.length) {
       setTimeout(() => {
         let message = "";
 
+        // else if statements for winning conditions based on the number of turns
         if (turnCount <= 8) {
           message = `Wow that's amazing! your total moves was only: ${turnCount}`;
         } else if (turnCount <= 11) {
@@ -158,7 +160,9 @@ document.addEventListener("DOMContentLoaded", () => {
             "Aw! you reached the maximum number of moves, better luck next time";
         }
 
+        // Shows and alert to the player based on the number of turns
         alert(`${message}`);
+        // Call endGame function on a delay to end the game after displaying alert message
         endGame();
       }, 1000);
     }
@@ -197,24 +201,26 @@ document.addEventListener("DOMContentLoaded", () => {
     turnCount = 0;
     turnCounterDisplay.textContent = `Turns: ${turnCount}`;
 
+    // Resets and clears variables & array
     cardsChosen = [];
     cardsChosenId = [];
     cardsWon = [];
     gameArea.innerHTML = "";
+    // Calls the function to create the game board
     createBoard();
   }
 
   // Function to end the game
   function endGame() {
     const paragraph = document.querySelector(".game-paragraph");
-    paragraph.style.display = "block";
-    gameArea.innerHTML = "";
-    turnCounterDisplay.style.display = "none";
-    startBtn.textContent = "Start";
-    startBtn.removeEventListener("click", restartGame);
-    startBtn.addEventListener("click", startGame);
+    paragraph.style.display = "block"; // Makes the game paragraph visible
+    gameArea.innerHTML = ""; // Clears the game area
+    turnCounterDisplay.style.display = "none"; // Hides the turn counter display
+    startBtn.textContent = "Start"; // Changes the Start button text
+    startBtn.removeEventListener("click", restartGame); // Removes event listener for restartGame
+    startBtn.addEventListener("click", startGame); // Adds event listener for startGame
     turnCount = 0;
-    turnCounterDisplay.textContent = `Turns: ${turnCount}`;
+    turnCounterDisplay.textContent = `Turns: ${turnCount}`; // Updates the turn counter display
   }
 
   // Event listener for Start button
