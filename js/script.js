@@ -1,30 +1,38 @@
+// Listens for the DOMContentLoaded event to ensure the script runs after the HTML document's content is fully loaded
 document.addEventListener("DOMContentLoaded", () => {
+  // Array containing URLs for different Pokemon images
   const images = [
-    "./images/absol.png",
-    "./images/charizard.png",
-    "./images/dragonite.png",
-    "./images/lapras.png",
-    "./images/moltres.png",
-    "./images/mudkip.png",
-    "./images/pikachu.png",
-    "./images/piplup.png",
-    "./images/shinx.png",
-    "./images/zapdos.png",
+    "./images/pokemon1.png",
+    "./images/pokemon2.png",
+    "./images/pokemon3.png",
+    "./images/pokemon4.png",
+    "./images/pokemon5.png",
+    "./images/pokemon6.png",
+    "./images/pokemon7.png",
+    "./images/pokemon8.png",
+    "./images/pokemon9.png",
+    "./images/pokemon10.png",
   ];
 
-  let turnCount = 0; // Initialize the turn counter
-  const turnCounterDisplay = document.getElementById("turn-counter");
+  // Variable to keep track of the number of turns taken in the game
+  let turnCount = 0;
 
+  // Reference to the element in HTML
+  const turnCounterDisplay = document.getElementById("turn-counter");
   const gameArea = document.getElementById("game-area");
   const startBtn = document.getElementById("start-btn");
+
+  // Arrays to hold chosen cards and their IDs
   let cardsChosen = [];
   let cardsChosenId = [];
+
+  // Array to store cards that have been successfully matched
   let cardsWon = [];
 
   // Double the images array to create pairs
   const doubledImages = images.concat(images);
 
-  // Shuffle images
+  // Function to shuffle the order of images randomly
   function shuffle(array) {
     let currentIndex = array.length,
       temp,
@@ -39,62 +47,87 @@ document.addEventListener("DOMContentLoaded", () => {
     return array;
   }
 
-  // Create the game board
+  // Function to create the game board dynamically
   function createBoard() {
     const shuffledImages = shuffle(doubledImages);
     for (let i = 0; i < shuffledImages.length; i++) {
-      const card = document.createElement("div");
-      card.classList.add("card");
-      card.setAttribute("data-id", i);
+      const card = document.createElement("div"); // Create a card element
+      card.classList.add("card"); // Add a CSS class to the card element
+      card.setAttribute("data-id", i); // Set a data attribute for the card
 
       // Create back element for each card as an image
       const back = document.createElement("img");
-      back.classList.add("back");
-      back.src = "./images/card.png"; // Set a blank image initially
-      back.setAttribute("data-image", shuffledImages[i]); // Store the actual image path as a data attribute
+      back.classList.add("back"); // Add a CSS class to the image element
+      back.src = "./images/card.png"; // Set the image source for the back of the card
+      back.setAttribute("data-image", shuffledImages[i]); // Set a data attribute for the image
+
+      // Append the image to the card element
       card.appendChild(back);
 
+      // Add a click event listener to the card
       card.addEventListener("click", flipCard);
+
+      // Append the card to the game area
       gameArea.appendChild(card);
     }
 
     // Change the Start button to a Restart button after the board is loaded
     startBtn.textContent = "Restart";
+
+    // Remove the startGame event listener and add the restartGame event listener to the Start button
     startBtn.removeEventListener("click", startGame);
     startBtn.addEventListener("click", restartGame);
   }
 
-  // Hide the paragraph text
+  // Function to hide a paragraph of text in the game
   function hideParagraphText() {
     const paragraph = document.querySelector(".game-paragraph");
-    paragraph.style.display = "none";
+    paragraph.style.display = "none"; // Hide the paragraph by setting its display style to "none"
   }
 
-  // Check for matches
+  // Function to check for matching cards
   function checkForMatch() {
     const allCards = document.querySelectorAll(".card");
+
+    // Destructuring assignment to get the IDs and chosen cards
     const [optionOneId, optionTwoId] = cardsChosenId;
     const [optionOne, optionTwo] = cardsChosen;
 
+    // Get specific card elements using their IDs
     const cardOne = allCards[optionOneId];
     const cardTwo = allCards[optionTwoId];
+
+    // Get the back images of the chosen cards
     const backOne = cardOne.querySelector(".back");
     const backTwo = cardTwo.querySelector(".back");
 
+    // Check if the chosen cards match
     if (optionOne === optionTwo && optionOneId !== optionTwoId) {
+      // Push the matched cards' IDs to the cardsWon array
       cardsWon.push(optionOneId, optionTwoId);
+
+      // Reset chosen cards and IDs arrays
       cardsChosen = [];
       cardsChosenId = [];
 
-      // Remove matched cards from the board
+      // Apply CSS class for animation to the matched cards
+      cardOne.classList.add("reverse-flip");
+      cardTwo.classList.add("reverse-flip");
+
+      // Hide matched cards from the board
       cardOne.style.visibility = "hidden";
       cardTwo.style.visibility = "hidden";
     } else {
-      turnCount++; // Increment the turn counter on mismatch
+      // Increment turn count for unsuccessful match
+      turnCount++;
       turnCounterDisplay.textContent = `Turns: ${turnCount}`;
+
+      // Delay before flipping the unmatched cards back
       setTimeout(() => {
         cardOne.classList.remove("flip");
         cardTwo.classList.remove("flip");
+        cardOne.classList.add("reverse-flip");
+        cardTwo.classList.add("reverse-flip");
         backOne.src = "./images/card.png";
         backTwo.src = "./images/card.png";
         cardsChosen = [];
@@ -102,28 +135,49 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 1000);
     }
 
+    // Alert the player if the maximum number of turns is reached
+    if (turnCount >= 20) {
+      alert(
+        "Better luck next time. You've reached the maximum number of turns."
+      );
+      endGame();
+    }
+
     if (cardsWon.length === doubledImages.length) {
       setTimeout(() => {
-        alert("Congratulations! You found all the matches!");
-        gameArea.innerHTML = "";
-        createBoard();
-      }, 500); // Delay the alert by 500 milliseconds (adjust as needed)
+        let message = "";
+
+        if (turnCount <= 8) {
+          message = `Wow that's amazing! your total moves was only: ${turnCount}`;
+        } else if (turnCount <= 11) {
+          message = `Very good! your total moves was: ${turnCount}`;
+        } else if (turnCount <= 15) {
+          message = `Not bad. your total moves was: ${turnCount}`;
+        } else {
+          message =
+            "Aw! you reached the maximum number of moves, better luck next time";
+        }
+
+        alert(`${message}`);
+        endGame();
+      }, 1000);
     }
   }
 
-  // Flip the card
+  // Function to flip a card when clicked
   function flipCard() {
     const cardId = this.getAttribute("data-id");
     const back = this.querySelector(".back");
 
     // Check if the card is already flipped or if two cards are already chosen
     if (!this.classList.contains("flip") && cardsChosen.length < 2) {
-      this.classList.add("flip");
-      cardsChosen.push(doubledImages[cardId]);
-      cardsChosenId.push(cardId);
+      this.classList.add("flip"); // Apply CSS class for flipping animation
+      cardsChosen.push(doubledImages[cardId]); // Push the chosen card to the array
+      cardsChosenId.push(cardId); // Push the chosen card's ID to the array
 
-      back.src = back.getAttribute("data-image"); // Set image source when flipped
+      back.src = back.getAttribute("data-image"); // Change the card image to the chosen Pokemon image
 
+      // Check if two cards are chosen, then check for a match
       if (cardsChosen.length === 2) {
         setTimeout(checkForMatch, 500);
       }
@@ -133,7 +187,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Function to start the game
   function startGame() {
     hideParagraphText();
-    gameArea.innerHTML = ""; // Clear existing game board
+    turnCounterDisplay.style.display = "inline";
+    gameArea.innerHTML = "";
     createBoard();
   }
 
@@ -145,8 +200,21 @@ document.addEventListener("DOMContentLoaded", () => {
     cardsChosen = [];
     cardsChosenId = [];
     cardsWon = [];
-    gameArea.innerHTML = ""; // Clear existing game board
+    gameArea.innerHTML = "";
     createBoard();
+  }
+
+  // Function to end the game
+  function endGame() {
+    const paragraph = document.querySelector(".game-paragraph");
+    paragraph.style.display = "block";
+    gameArea.innerHTML = "";
+    turnCounterDisplay.style.display = "none";
+    startBtn.textContent = "Start";
+    startBtn.removeEventListener("click", restartGame);
+    startBtn.addEventListener("click", startGame);
+    turnCount = 0;
+    turnCounterDisplay.textContent = `Turns: ${turnCount}`;
   }
 
   // Event listener for Start button
