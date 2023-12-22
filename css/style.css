@@ -187,7 +187,7 @@ strong {
 }
 
 /* Laptop */
-@media (min-width: 900px) and (max-width: 1900px) {
+@media (min-width: 900px) and (max-width: 1950px) {
   body {
     height: 100vh;
     border: 1px red solid;
@@ -207,14 +207,14 @@ strong {
   }
 
   .card {
-    width: 120px;
-    height: 170px;
+    width: 140px;
+    height: 190px;
     margin: 5px;
   }
 
   img {
-    width: 120px;
-    height: 170px;
+    width: 140px;
+    height: 190px;
   }
 }
 
