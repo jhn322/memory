@@ -161,7 +161,7 @@ strong {
 @media (max-width: 899px) {
   h1 {
     font-size: 4.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
   }
 
   .card {
