@@ -12,24 +12,30 @@
     <title>Memory Game</title>
 </head>
 
+<!-- Headline -->
+
 <body>
     <div class="game-headline">
         <a href="./index.html">
             <h1>MEMORY</h1>
         </a>
     </div>
+
+    <!-- Game Rules -->
     <div class="game-paragraph">
         <p class="rules" id="rules"><strong>Game rules:</strong> Find pairs of 2 until all cards are
-            paired. <br> Successful
+            paired. <br> Successfully
             pairing grants a
             "free" turn. <br> <strong>Good Luck!</strong></p>
     </div>
 
+    <!-- Start/Restart button -->
     <div class="game-button">
         <button class="btn" id="start-btn">Start</button>
         <span class="turn-counter" id="turn-counter">Turns: 0</span>
     </div>
 
+    <!-- Game area generated in JavaScript -->
     <div class="game-area" id="game-area"></div>
 
     <script src="./js/script.js"></script>
