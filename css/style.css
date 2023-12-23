@@ -22,7 +22,7 @@ body {
 h1 {
   font-size: 7rem;
   color: rgb(30, 44, 199);
-  transition: 0.7s ease;
+  transition: 0.4s ease;
   margin-top: -2rem;
 }
 
@@ -76,7 +76,7 @@ strong {
   font-size: 1.5rem;
   height: 40px;
   width: 120px;
-  transition: 0.7s ease;
+  transition: 0.4s ease;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -115,7 +115,7 @@ strong {
   perspective: 1000px;
   position: relative;
   cursor: pointer;
-  transition: all 0.7s ease;
+  transition: all 0.4s ease;
 }
 
 /* Zoom cards */
@@ -124,7 +124,7 @@ strong {
 }
 
 .card.flip {
-  animation: flipAnimation 0.7s ease forwards;
+  animation: flipAnimation 0.4s ease forwards;
 }
 
 /* Rotates 180 degrees and slight wiggle */
@@ -141,7 +141,7 @@ strong {
 }
 
 .card.reverse-flip {
-  animation: reverseFlipAnimation 0.7s ease forwards;
+  animation: reverseFlipAnimation 0.4s ease forwards;
 }
 
 /* Flips back */
